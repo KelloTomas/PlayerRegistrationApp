@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,11 @@ namespace WindowsFormsApplication1
 			List<string[]> rows = File.ReadAllLines("reg.csv").Select(x => x.Split(',')).ToList();
 			rows.ForEach(x =>
 			{
+				/*
+				byte[] tempBytes = System.Text.Encoding.GetEncoding("UTF-8").GetBytes(x[0]);
+				tempBytes = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, tempBytes);
+				x[0] = System.Text.Encoding.ASCII.GetString(tempBytes);
+				*/
 				dataGridView1.Rows.Add(x);
 			});
 
@@ -48,11 +54,13 @@ namespace WindowsFormsApplication1
 				ignoreChange = false;
 				return;
 			}
+			//CultureInfo c = new CultureInfo("sk-SK");
 			foreach (DataGridViewRow v in dataGridView1.Rows)
 			{
 				try
 				{
 					if (((String)v.Cells[0].Value).IndexOf(priezvisko.Text, StringComparison.OrdinalIgnoreCase) == 0)
+					//if (String.Compare(((String)v.Cells[0].Value).Substring(0, priezvisko.Text.Length), priezvisko.Text, c, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) == 0)
 					{
 						v.Visible = true;
 					}
