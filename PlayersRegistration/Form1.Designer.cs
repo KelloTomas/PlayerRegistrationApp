@@ -44,19 +44,20 @@
 			this.numOfRegistered = new System.Windows.Forms.Label();
 			this.button2 = new System.Windows.Forms.Button();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.kategoria = new System.Windows.Forms.ComboBox();
 			this.priezviskoView = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.MenoView = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.RocnikView = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.KlubView = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.KategoriaView = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.kategoria = new System.Windows.Forms.ComboBox();
+			this.button3 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(651, 226);
+			this.button1.Location = new System.Drawing.Point(651, 208);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 6;
@@ -71,7 +72,7 @@
 			this.priezvisko.Size = new System.Drawing.Size(100, 20);
 			this.priezvisko.TabIndex = 0;
 			this.priezvisko.TextChanged += new System.EventHandler(this.Priezvisko_TextChanged);
-			this.priezvisko.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.priezvisko_KeyPress);
+			this.priezvisko.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Priezvisko_KeyPress);
 			// 
 			// label1
 			// 
@@ -142,7 +143,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(648, 179);
+			this.label5.Location = new System.Drawing.Point(648, 161);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(29, 13);
 			this.label5.TabIndex = 10;
@@ -150,7 +151,7 @@
 			// 
 			// cislo
 			// 
-			this.cislo.Location = new System.Drawing.Point(647, 198);
+			this.cislo.Location = new System.Drawing.Point(647, 177);
 			this.cislo.Name = "cislo";
 			this.cislo.Size = new System.Drawing.Size(79, 20);
 			this.cislo.TabIndex = 5;
@@ -176,14 +177,14 @@
 			// 
 			// button2
 			// 
-			this.button2.Location = new System.Drawing.Point(651, 255);
+			this.button2.Location = new System.Drawing.Point(651, 237);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
 			this.button2.TabIndex = 8;
 			this.button2.TabStop = false;
-			this.button2.Text = "Uloz";
+			this.button2.Text = "Uloz XLSX";
 			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.button2.Click += new System.EventHandler(this.btn_SaveXLSX);
 			// 
 			// dataGridView1
 			// 
@@ -211,31 +212,9 @@
 			this.dataGridView1.Size = new System.Drawing.Size(618, 220);
 			this.dataGridView1.TabIndex = 0;
 			this.dataGridView1.TabStop = false;
-			this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
-			this.dataGridView1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridView1_KeyPress);
-			this.dataGridView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyUp);
-			// 
-			// kategoria
-			// 
-			this.kategoria.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-			this.kategoria.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.kategoria.FormattingEnabled = true;
-			this.kategoria.Items.AddRange(new object[] {
-            "MK",
-            "MJ",
-            "MA",
-            "MV",
-            "MB",
-            "ZK",
-            "ZJ",
-            "ZA",
-            "ZV",
-            "ZB"});
-			this.kategoria.Location = new System.Drawing.Point(436, 28);
-			this.kategoria.Name = "kategoria";
-			this.kategoria.Size = new System.Drawing.Size(121, 21);
-			this.kategoria.TabIndex = 4;
-			this.kategoria.Text = "MA";
+			this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyDown);
+			this.dataGridView1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DataGridView1_KeyPress);
+			this.dataGridView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyUp);
 			// 
 			// priezviskoView
 			// 
@@ -278,11 +257,34 @@
 			this.Email.Name = "Email";
 			this.Email.ReadOnly = true;
 			// 
+			// kategoria
+			// 
+			this.kategoria.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+			this.kategoria.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.kategoria.FormattingEnabled = true;
+			this.kategoria.Location = new System.Drawing.Point(436, 28);
+			this.kategoria.Name = "kategoria";
+			this.kategoria.Size = new System.Drawing.Size(121, 21);
+			this.kategoria.TabIndex = 4;
+			this.kategoria.Text = "MA";
+			// 
+			// button3
+			// 
+			this.button3.Location = new System.Drawing.Point(651, 265);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(75, 23);
+			this.button3.TabIndex = 11;
+			this.button3.TabStop = false;
+			this.button3.Text = "Uloz csv";
+			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.Btn_SaveCSV);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(739, 300);
+			this.Controls.Add(this.button3);
 			this.Controls.Add(this.kategoria);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.button2);
@@ -335,6 +337,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn KlubView;
 		private System.Windows.Forms.DataGridViewTextBoxColumn KategoriaView;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Email;
+		private System.Windows.Forms.Button button3;
 	}
 }
 

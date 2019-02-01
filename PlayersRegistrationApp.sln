@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayersRegistrationApp", "PlayersRegistration\PlayersRegistrationApp.csproj", "{66F95DC8-C9E2-4796-92A1-2E6DE1337963}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeAssign", "TimeAssign\TimeAssign.csproj", "{588C77D7-5C3A-4233-B135-82A30208BF3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "DataTypes\DataTypes.csproj", "{27E94D83-8E3D-46CC-985B-78594FEC424E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{66F95DC8-C9E2-4796-92A1-2E6DE1337963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66F95DC8-C9E2-4796-92A1-2E6DE1337963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66F95DC8-C9E2-4796-92A1-2E6DE1337963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{588C77D7-5C3A-4233-B135-82A30208BF3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588C77D7-5C3A-4233-B135-82A30208BF3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588C77D7-5C3A-4233-B135-82A30208BF3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588C77D7-5C3A-4233-B135-82A30208BF3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27E94D83-8E3D-46CC-985B-78594FEC424E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E94D83-8E3D-46CC-985B-78594FEC424E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27E94D83-8E3D-46CC-985B-78594FEC424E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27E94D83-8E3D-46CC-985B-78594FEC424E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
