@@ -159,9 +159,10 @@ namespace WindowsFormsApplication1
 		}
 		private void SaveCompetitor()
 		{
-			if (cislo.Text == "")
+			if (!int.TryParse(cislo.Text, out int number))
 			{
 				MessageBox.Show("Zadaj startove cislo");
+				cislo.Focus();
 				return;
 			}
 
@@ -169,7 +170,9 @@ namespace WindowsFormsApplication1
 			{
 				Player player = new Player
 				{
-					Number = ParseOrDefault(cislo.Text),
+					OrderGeneral = 0,
+					OrderCategory = 0,
+					Number = number,
 					Lastname = priezvisko.Text,
 					Firstname = meno.Text,
 					Year = ParseOrDefault(rocnik.Text),
