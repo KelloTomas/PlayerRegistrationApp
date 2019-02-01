@@ -50,6 +50,75 @@ namespace DataTypes
 		}
 
 
+		public static string GetInHTML(this ObservableCollection<Player> players)
+		{
+			players.SetOrder();
+			string html = string.Empty;
+			html += $"<H1>Vysledky</H1><table>" +
+				$"<tr>" +
+				$"<th>Por</th>" +
+				$"<th>PorKat</th>" +
+				$"<th>Číslo</th>" +
+				$"<th>Priezvisko</th>" +
+				$"<th>Meno</th>" +
+				$"<th>Ročník</th>" +
+				$"<th>Klub</th>" +
+				$"<th>Kat.</th>" +
+				$"<th>Čas</th>" +
+				$"</tr>";
+			foreach (var player in players.OrderBy(p => p.Time))
+			{
+				html += $"<tr>" +
+					$"<td>{player.OrderGeneral}</td>" +
+					$"<td>{player.OrderCategory}</td>" +
+					$"<td>{player.Number}</td>" +
+					$"<td>{player.Lastname}</td>" +
+					$"<td>{player.Firstname}</td>" +
+					$"<td>{player.Year}</td>" +
+					$"<td>{player.Club}</td>" +
+					$"<td>{player.Category}</td>" +
+					$"<td>{player.Time}</td>" +
+					$"</tr>";
+			}
+			html += $"</table>";
+			return html;
+		}
+		public static string GetInHTMLByCat(this ObservableCollection<Player> players)
+		{
+			players.SetOrder();
+			string html = string.Empty;
+			foreach (var category in Enum.GetNames(typeof(Category)).Cast<string>().ToArray())
+			{
+				html += $"<H1>{category}</H1><table>" +
+					$"<tr>" +
+					$"<th>Por</th>" +
+					$"<th>PorKat</th>" +
+					$"<th>Číslo</th>" +
+					$"<th>Priezvisko</th>" +
+					$"<th>Meno</th>" +
+					$"<th>Ročník</th>" +
+					$"<th>Klub</th>" +
+					$"<th>Kat.</th>" +
+					$"<th>Čas</th>" +
+					$"</tr>";
+				foreach (var player in players.Where(p => p.Category == category).OrderBy(p => p.Time))
+				{
+					html += $"<tr>" +
+						$"<td>{player.OrderGeneral}</td>" +
+						$"<td>{player.OrderCategory}</td>" +
+						$"<td>{player.Number}</td>" +
+						$"<td>{player.Lastname}</td>" +
+						$"<td>{player.Firstname}</td>" +
+						$"<td>{player.Year}</td>" +
+						$"<td>{player.Club}</td>" +
+						$"<td>{player.Category}</td>" +
+						$"<td>{player.Time}</td>" +
+						$"</tr>";
+				}
+				html += $"</table>";
+			}
+			return html;
+		}
 		public static string GetInCSV(this ObservableCollection<Player> players)
 		{
 			players.SetOrder();
@@ -107,19 +176,36 @@ namespace DataTypes
 		public static Player FromCsv(string csvLine)
 		{
 			string[] values = csvLine.Split(';');
-			Player player = new Player();
-			player.OrderGeneral = values[0].GetInt();
-			player.OrderCategory = values[1].GetInt();
-			player.Number = values[2].GetInt();
-			player.Firstname = values[3];
-			player.Lastname = values[4];
-			player.Year = values[5].GetInt();
-			player.Club = values[6];
-			player.Category = values[7];
-			player.Time = values[8].GetTimeSpan();
+			Player player = new Player
+			{
+				OrderGeneral = values[0].GetInt(),
+				OrderCategory = values[1].GetInt(),
+				Number = values[2].GetInt(),
+				Firstname = values[3],
+				Lastname = values[4],
+				Year = values[5].GetInt(),
+				Club = values[6],
+				Category = values[7],
+				Time = values[8].GetTimeSpan()
+			};
 			return player;
 		}
 
-
+		public Player Copy()
+		{
+			Player player = new Player
+			{
+				OrderGeneral = 0,
+				OrderCategory = 0,
+				Number = Number,
+				Firstname = Firstname,
+				Lastname = Lastname,
+				Year = Year,
+				Club = Club,
+				Category = Category,
+				Time = Time
+			};
+			return player;
+		}
 	}
 }

@@ -14,9 +14,11 @@ namespace TimeAssign
 	{
 		public ObservableCollection<Player> PlayersWithTime { get; set; } = new ObservableCollection<Player>();
 		public List<Player> PlayersDb;
+		private string htmlFileName;
 		public MainWindow()
 		{
 			InitializeComponent();
+			htmlFileName = $"{DateTime.Now.ToString("HH-mm-ss")}.html";
 			DataContext = this;
 		}
 		protected override void OnContentRendered(EventArgs e)
@@ -50,7 +52,7 @@ namespace TimeAssign
 					return;
 				}
 				currPlayer.Time = new TimeSpan(hour.Text.GetInt(), min.Text.GetInt(), sec.Text.GetInt());
-				PlayersWithTime.Add(currPlayer);
+				PlayersWithTime.Add(currPlayer.Copy());
 				PlayersWithTime.SetOrder();
 				number.Clear();
 				hour.Clear();
@@ -73,39 +75,8 @@ namespace TimeAssign
 				};
 				if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
-					PlayersWithTime.SetOrder();
-					string html = File.ReadAllText("head.html");
-					foreach (var category in Enum.GetNames(typeof(Category)).Cast<string>().ToArray())
-					{
-						html += $"<H1>{category}</H1><table>" +
-							$"<tr>" +
-							$"<th>Por</th>" +
-							$"<th>PorKat</th>" +
-							$"<th>Číslo</th>" +
-							$"<th>Priezvisko</th>" +
-							$"<th>Meno</th>" +
-							$"<th>Ročník</th>" +
-							$"<th>Klub</th>" +
-							$"<th>Kat.</th>" +
-							$"<th>Čas</th>" +
-							$"</tr>";
-						foreach (var player in PlayersWithTime.Where(p => p.Category == category).OrderBy(p => p.Time))
-						{
-							html += $"<tr>" +
-								$"<td>{player.OrderGeneral}</td>" +
-								$"<td>{player.OrderCategory}</td>" +
-								$"<td>{player.Number}</td>" +
-								$"<td>{player.Lastname}</td>" +
-								$"<td>{player.Firstname}</td>" +
-								$"<td>{player.Year}</td>" +
-								$"<td>{player.Club}</td>" +
-								$"<td>{player.Category}</td>" +
-								$"<td>{player.Time}</td>" +
-								$"</tr>";
-						}
-						html += $"</table>";
-					}
-					html += "</body></html>";
+					string html = File.ReadAllText("headPdf.html");
+					html += PlayersWithTime.GetInHTMLByCat();
 					RichEditDocumentServer r = new RichEditDocumentServer
 					{
 						HtmlText = html
@@ -119,7 +90,41 @@ namespace TimeAssign
 			}
 		}
 
+		
+		private bool _isHtmlOpen = false;
+		private void Button_Click_HTML(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				File.WriteAllLines("results" + htmlFileName, new string [] { File.ReadAllText("headHtml.html"), PlayersWithTime.GetInHTML(), "</body></head>"});
+				if (!_isHtmlOpen)
+				{
+					System.Diagnostics.Process.Start("results" + htmlFileName);
+					_isHtmlOpen = true;
+				}
+			}
+			catch (Exception)
+			{
 
+			}
+		}
+		private bool _isHtmlByCatOpen = false;
+		private void Button_Click_HTMLByCat(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				File.WriteAllLines("resultsCat" + htmlFileName, new string [] { File.ReadAllText("headHtml.html"), PlayersWithTime.GetInHTMLByCat(), "</body></head>"});
+				if (!_isHtmlByCatOpen)
+				{
+					System.Diagnostics.Process.Start("resultsCat" + htmlFileName);
+					_isHtmlByCatOpen = true;
+				}
+			}
+			catch (Exception)
+			{
+
+			}
+		}
 		private void Button_Click_CSV(object sender, RoutedEventArgs e)
 		{
 			try
