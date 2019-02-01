@@ -12,18 +12,20 @@ namespace WindowsFormsApplication1
 {
 	public partial class Form1 : Form
 	{
-		private bool ignoreChange = false;
-		private Microsoft.Office.Interop.Excel.Application oXL;
-		private Microsoft.Office.Interop.Excel._Workbook oWB;
-		private Microsoft.Office.Interop.Excel._Worksheet oSheet;
-		private Microsoft.Office.Interop.Excel.Range oRng;
-		private ObservableCollection<Player> RegisteredPlayers = new ObservableCollection<Player>();
+		private bool _ignoreChange = false;
+		private Microsoft.Office.Interop.Excel.Application _oXL;
+		private _Workbook _oWB;
+		private _Worksheet _oSheet;
+		private Range oRng;
+		private ObservableCollection<Player> _registeredPlayers = new ObservableCollection<Player>();
 		public Form1()
 		{
 			InitializeComponent();
-			dataGridView1.CellClick += DataGridView1_CellClick;
-			//priezvisko.TextChanged += Priezvisko_TextChanged;
+		}
 
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
 			OpenFileDialog openFileDialog = new OpenFileDialog
 			{
 				Filter = "csv files (*.csv)|*.csv"
@@ -48,15 +50,15 @@ namespace WindowsFormsApplication1
 
 				kategoria.DataSource = Enum.GetValues(typeof(Category));
 
-				openApp();
+				OpenApp();
 			}
 		}
 
 		private void Priezvisko_TextChanged(object sender, EventArgs e)
 		{
-			if (ignoreChange)
+			if (_ignoreChange)
 			{
-				ignoreChange = false;
+				_ignoreChange = false;
 				return;
 			}
 			//CultureInfo c = new CultureInfo("sk-SK");
@@ -89,7 +91,7 @@ namespace WindowsFormsApplication1
 		private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			//cislo.Focus();
-			ignoreChange = true;
+			_ignoreChange = true;
 			//priezvisko.TextChanged -= Priezvisko_TextChanged;
 			FillHeader(dataGridView1.Rows[e.RowIndex]);
 
@@ -112,34 +114,34 @@ namespace WindowsFormsApplication1
 			}
 		}
 
-		private void openApp()
+		private void OpenApp()
 		{
 			try
 			{
 				//Start Excel and get Application object.
-				oXL = new Microsoft.Office.Interop.Excel.Application();
-				oXL.Visible = true;
-				oXL.UserControl = false;
+				_oXL = new Microsoft.Office.Interop.Excel.Application();
+				_oXL.Visible = true;
+				_oXL.UserControl = false;
 
 				//Get a new workbook.
-				oWB = oXL.Workbooks.Add("");
-				oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
+				_oWB = _oXL.Workbooks.Add("");
+				_oSheet = (Microsoft.Office.Interop.Excel._Worksheet)_oWB.ActiveSheet;
 
 				// create table
-				oRng = oSheet.get_Range("A1:I1");
-				oSheet.ListObjects.AddEx(XlListObjectSourceType.xlSrcRange, oRng, Microsoft.Office.Interop.Excel.XlYesNoGuess.xlNo).Name = "MyTableStyle";
-				oSheet.ListObjects.get_Item("MyTableStyle").TableStyle = "TableStyleMedium1";
+				oRng = _oSheet.get_Range("A1:I1");
+				_oSheet.ListObjects.AddEx(XlListObjectSourceType.xlSrcRange, oRng, Microsoft.Office.Interop.Excel.XlYesNoGuess.xlNo).Name = "MyTableStyle";
+				_oSheet.ListObjects.get_Item("MyTableStyle").TableStyle = "TableStyleMedium1";
 
 				//Add table headers going cell by cell.
-				oSheet.Cells[1, 1] = "Poradie";
-				oSheet.Cells[1, 2] = "Poradie kat.";
-				oSheet.Cells[1, 3] = "Cislo";
-				oSheet.Cells[1, 4] = "Priezvisko";
-				oSheet.Cells[1, 5] = "Meno";
-				oSheet.Cells[1, 6] = "Rocnik";
-				oSheet.Cells[1, 7] = "Klub";
-				oSheet.Cells[1, 8] = "Kat.";
-				oSheet.Cells[1, 9] = "Cas";
+				_oSheet.Cells[1, 1] = "Poradie";
+				_oSheet.Cells[1, 2] = "Poradie kat.";
+				_oSheet.Cells[1, 3] = "Cislo";
+				_oSheet.Cells[1, 4] = "Priezvisko";
+				_oSheet.Cells[1, 5] = "Meno";
+				_oSheet.Cells[1, 6] = "Rocnik";
+				_oSheet.Cells[1, 7] = "Klub";
+				_oSheet.Cells[1, 8] = "Kat.";
+				_oSheet.Cells[1, 9] = "Cas";
 			}
 			catch
 			{
@@ -179,14 +181,14 @@ namespace WindowsFormsApplication1
 					Club = klub.Text,
 					Category = kategoria.Text
 				};
-				RegisteredPlayers.Add(player);
-				oSheet.Cells[RegisteredPlayers.Count + 1, 3] = cislo.Text;
-				oSheet.Cells[RegisteredPlayers.Count + 1, 4] = priezvisko.Text;
-				oSheet.Cells[RegisteredPlayers.Count + 1, 5] = meno.Text;
-				oSheet.Cells[RegisteredPlayers.Count + 1, 6] = rocnik.Text;
-				oSheet.Cells[RegisteredPlayers.Count + 1, 7] = klub.Text;
-				oSheet.Cells[RegisteredPlayers.Count + 1, 8] = kategoria.Text;
-				numOfRegistered.Text = RegisteredPlayers.Count.ToString();
+				_registeredPlayers.Add(player);
+				_oSheet.Cells[_registeredPlayers.Count + 1, 3] = cislo.Text;
+				_oSheet.Cells[_registeredPlayers.Count + 1, 4] = priezvisko.Text;
+				_oSheet.Cells[_registeredPlayers.Count + 1, 5] = meno.Text;
+				_oSheet.Cells[_registeredPlayers.Count + 1, 6] = rocnik.Text;
+				_oSheet.Cells[_registeredPlayers.Count + 1, 7] = klub.Text;
+				_oSheet.Cells[_registeredPlayers.Count + 1, 8] = kategoria.Text;
+				numOfRegistered.Text = _registeredPlayers.Count.ToString();
 
 				priezvisko.Text = "";
 				meno.Text = "";
@@ -225,8 +227,8 @@ namespace WindowsFormsApplication1
 			{
 
 				//oXL.Visible = true;
-				oXL.UserControl = false;
-				oWB.SaveAs($"out{RegisteredPlayers}.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
+				_oXL.UserControl = false;
+				_oWB.SaveAs($"out{_registeredPlayers}.xlsx", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
 					false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
 					Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 
@@ -267,7 +269,7 @@ namespace WindowsFormsApplication1
 		{
 			if (e.KeyChar == (char)Keys.Enter)
 			{
-				ignoreChange = true;
+				_ignoreChange = true;
 				FillHeader(dataGridView1.SelectedRows[0]);
 				cislo.Focus();
 				e.Handled = true;
@@ -275,7 +277,7 @@ namespace WindowsFormsApplication1
 			}
 			if (e.KeyChar == (char)Keys.Escape)
 			{
-				ignoreChange = true;
+				_ignoreChange = true;
 				priezvisko.Focus();
 				e.Handled = true;
 				return;
@@ -297,13 +299,13 @@ namespace WindowsFormsApplication1
 
 		private void DataGridView1_KeyUp(object sender, KeyEventArgs e)
 		{
-			ignoreChange = true;
+			_ignoreChange = true;
 			FillHeader(dataGridView1.SelectedRows[0]); // when click arrow, but update old row data
 		}
 
 		private void Btn_SaveCSV(object sender, EventArgs e)
 		{
-			File.WriteAllText($"reg-{RegisteredPlayers.Count}.csv", RegisteredPlayers.GetInCSV());
+			File.WriteAllText($"reg-{_registeredPlayers.Count}.csv", _registeredPlayers.GetInCSV());
 		}
 	}
 }
